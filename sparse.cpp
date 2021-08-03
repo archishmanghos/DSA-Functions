@@ -7,7 +7,7 @@ Range update queries mean whole sparse table to be rebuilt.
 Time complexity: -> Building the sparse table: O(NlogN)
 				 -> Processing Queries 		: O(logN), if the 	function is not idempotent
 											  O(1), if the function
-				 function is idempotent, F(A, A) = A
+				 is idempotent, F(A, A) = A
 
 Common idempotent fns: min, max, gcd, bitwise or, bitwise and
 
@@ -37,8 +37,10 @@ for (int j = 1; j <= K; j++)
 /*if function is not idempotent uncomment this and remember to change the function according to the problem =>
 
 int ans = 0;
-for (int j = K; j >= 0; j--) {
-    if ((1 << j) <= R - L + 1) {
+for (int j = K; j >= 0; j--) 
+{
+    if ((1 << j) <= R - L + 1) 
+    {
         ans += sparse[L][j];
         L += (1 << j);
     }
