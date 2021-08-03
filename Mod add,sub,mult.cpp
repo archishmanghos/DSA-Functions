@@ -1,3 +1,5 @@
+const int mod = 1e9 + 7;
+
 int add(int a, int b, int p = mod)
 {
 	int c = a + b;
