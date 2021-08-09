@@ -5,9 +5,8 @@ Check if the table to be built is immutable.
 Range update queries mean whole sparse table to be rebuilt.
 
 Time complexity: -> Building the sparse table: O(NlogN)
-				 -> Processing Queries 		: O(logN), if the 	function is not idempotent
-											  O(1), if the function
-				 is idempotent, F(A, A) = A
+		 -> Processing Queries 		: O(logN), if the function is not idempotent
+						  O(1), if the function is idempotent, F(A, A) = A
 
 Common idempotent fns: min, max, gcd, bitwise or, bitwise and
 
