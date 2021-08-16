@@ -43,8 +43,8 @@ for (int j = K; j >= 0; j--)
         ans += sparse[L][j];
         L += (1 << j);
     }
-}*/
-
+}
+*/
 /*if function is idempotent, uncomment this and remember to change the function according to the problem =>
 
 int j = logg[R - L + 1];

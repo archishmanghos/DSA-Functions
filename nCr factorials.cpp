@@ -3,47 +3,48 @@ int fact[mxN], invfact[mxN];
 
 int pow(int a, int b, int m)
 {
-	int ans=1;
+	int ans = 1;
 	while(b)
 	{
-		if(b&1)
-			ans=(ans*a)%m;
-		b/=2;
-		a=(a*a)%m;
+		if(b & 1)
+			ans = (ans *a) % m;
+		b /= 2;
+		a = (a *a) % m;
 	}
 	return ans;
 }
 
 int modinv(int k)
 {
-	return pow(k, MOD-2, MOD);
+	return pow(k, MOD - 2, MOD);
 }
 
 void precompute()
 {
-	fact[0]=fact[1]=1;
-	for(int i=2;i<mxN;i++)
+	fact[0] = fact[1] = 1;
+	for(int i = 2; i < mxN; i++)
 	{
-		fact[i]=fact[i-1]*i;
-		fact[i]%=MOD;
+		fact[i] = fact[i - 1] * i;
+		fact[i] %= MOD;
 	}
-	invfact[mxN-1]=modinv(fact[mxN-1]);
-	for(int i=mxN-2;i>=0;i--)
+	invfact[mxN - 1] = modinv(fact[mxN - 1]);
+	
+	for(int i = mxN - 2; i >= 0; i--)
 	{
-		invfact[i]=invfact[i+1]*(i+1);
-		invfact[i]%=MOD;
+		invfact[i] = invfact[i + 1] * (i + 1);
+		invfact[i] %= MOD;
 	}
 }
 
 int nCr(int x, int y)
 {
-	if(y>x)
+	if(y > x)
 		return 0;
-	int num=fact[x];
-	num*=invfact[y];
-	num%=MOD;
-	num*=invfact[x-y];
-	num%=MOD;
+	int num = fact[x];
+	num *= invfact[y];
+	num %= MOD;
+	num *= invfact[x - y];
+	num %= MOD;
 	return num;
 }
 
