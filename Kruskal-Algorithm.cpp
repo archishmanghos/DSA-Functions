@@ -53,6 +53,7 @@ void unionOfEdges(int u, int v)
 void Kruskal()
 {
 	int M, U, V, W; // W is the weight
+	makeSet();
 	vector<node> newEdges;
 	for(int i = 1; i <= M; i++)
 	{
