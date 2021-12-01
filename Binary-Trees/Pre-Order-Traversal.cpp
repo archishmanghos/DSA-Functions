@@ -29,13 +29,13 @@ Node* buildTree()
 	root->right = buildTree();
 }
 
-void print(Node *root)
+void preorderTraversal(Node *root)
 {
 	if(root == NULL)
 		return;
 	cout << root->data << ' ';
-	print(root->left);
-	print(root->right);
+	preorderTraversal(root->left);
+	preorderTraversal(root->right);
 }
 
 int32_t main()
@@ -44,7 +44,7 @@ int32_t main()
     cin.tie(NULL);
 
     Node *root = buildTree();
-    print(root);
+    preorderTraversal(root);
 
     return 0;
 }
