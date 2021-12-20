@@ -40,7 +40,7 @@ void topView(Node *root)
 		pair<Node *, int> curNode = q.front();
 		q.pop();
 
-		if(!mp[curNode.second])
+		if(mp.find(curNode.second) == mp.end())
 			mp[curNode.second] = curNode.first->data;
 
 		if(curNode.first->left)
