@@ -38,27 +38,37 @@ void preorderTraversal(Node *root)
 	preorderTraversal(root->right);
 }
 
-int childrenSumProperty(Node *root)
+void childrenSumProperty(Node *root)
 {
 	if(root == NULL)
-		return 0;
+		return;
 
-	int leftChild, rightChild;
-	if(root->left != NULL && root->right != NULL)
+	int child = 0;
+	if(root->left)
+		child += root->left->data;
+	if(root->right)
+		child += root->right->data;
+
+	if(child <= root->data)
 	{
-		leftChild = root->left->data;
-		rightChild = root->right->data;
-		int sum = leftChild + rightChild;
-		if(sum <= root->data)
-			root->left->data = root->right->data = root->data;
-		else
-			root->data = sum;
+		if(root->left)
+			root->left->data = root->data;
+		if(root->right)
+			root->right->data = root->data;
 	}
+	else
+		root->data = child;
 	
-	leftChild = childrenSumProperty(root->left);
-	rightChild = childrenSumProperty(root->right);
-	root->data = max(root->data, leftChild + rightChild);
-	return root->data;
+	childrenSumProperty(root->left);
+	childrenSumProperty(root->right);
+	
+	child = 0;
+	if(root->left)
+		child += root->left->data;
+	if(root->right)
+		child += root->right->data;
+	if(root->left or root->right)
+		root->data = child;
 }
 
 int32_t main()
@@ -67,7 +77,7 @@ int32_t main()
     cin.tie(NULL);
 
     Node *root = buildTree();
-  	int rootData = childrenSumProperty(root);
+  	childrenSumProperty(root);
   	preorderTraversal(root);
 
     return 0;
