@@ -51,10 +51,8 @@ Node *findNode(Node *root, int target)
 	}
 }
 
-void nodesAtDistanceOfK(Node *root, int target, int distance)
+map<Node *, Node *> assignParent(Node *root)
 {
-	Node *targetNode = findNode(root, target);
-
 	map<Node *, Node *> parent;
 	queue<Node *> q;
 	q.push(root);
@@ -80,6 +78,15 @@ void nodesAtDistanceOfK(Node *root, int target, int distance)
 		}
 	}
 
+	return parent;
+}
+
+void nodesAtDistanceOfK(Node *root, int target, int distance)
+{
+	Node *targetNode = findNode(root, target);
+	map<Node *, Node *> parent = assignParent(root);
+	
+	queue<Node *> q;
 	int dist = 0;
 	map<Node *, int> visited;
 	q.push(targetNode);
