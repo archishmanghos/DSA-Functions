@@ -44,12 +44,12 @@ Node *createBinTreeFromInorderAndPostorder(int inorderStart, int inorderEnd, int
 		return NULL;
 
 	Node *newNode = new Node(postOrder[postOrderEnd]);
-	int leftSubtreeSize = indexInInorder[postOrder[postOrderEnd]]; // 0-indexing
-	int numsLeft = leftSubtreeSize - inorderStart;
+	int index = indexInInorder[postOrder[postOrderEnd]]; // 0-indexing
+	int leftSubtreeSize = index - inorderStart;
 
-	newNode->left = createBinTreeFromInorderAndPostorder(inorderStart, leftSubtreeSize - 1, postOrderStart, postOrderStart + numsLeft - 1, inOrder, postOrder, indexInInorder);
+	newNode->left = createBinTreeFromInorderAndPostorder(inorderStart, index - 1, postOrderStart, postOrderStart + leftSubtreeSize - 1, inOrder, postOrder, indexInInorder);
 
-	newNode->right = createBinTreeFromInorderAndPostorder(leftSubtreeSize + 1, inorderEnd, postOrderStart + numsLeft, postOrderEnd - 1, inOrder, postOrder, indexInInorder);
+	newNode->right = createBinTreeFromInorderAndPostorder(index + 1, inorderEnd, postOrderStart + leftSubtreeSize, postOrderEnd - 1, inOrder, postOrder, indexInInorder);
 
 	return newNode;
 }
