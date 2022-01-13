@@ -53,6 +53,9 @@ string integertostring(int x)
 string serialiseBinaryTree(Node *root)
 {
 	string ans = "";
+	if(root == NULL)
+		return ans;
+
 	queue<Node *> q;
 	q.push(root);
 
@@ -92,7 +95,7 @@ int stringtointeger(string x)
 
 Node *deSerialiseBinaryTree(string S)
 {
-	if(S[0] == '#')
+	if(S.size() == 0)
 		return NULL;
 
 	queue<Node *> q;
