@@ -1071,6 +1071,80 @@ createBSTfromPreOrderUsingSortingMethod(int preOrderStart, int preOrderEnd, vect
     return newNode;
 }
 
+Node *createBSTfromPreOrderUsingBoundMethod(int upperBound, int &index, vector<int> &preOrder) {
+    if (index >= preOrder.size() or preOrder[index] >= upperBound) {
+        return NULL;
+    }
+
+    Node *newNode = new Node(preOrder[index]);
+    index += 1;
+    newNode->left = createBSTfromPreOrderUsingBoundMethod(newNode->data, index, preOrder);
+    newNode->right = createBSTfromPreOrderUsingBoundMethod(upperBound, index, preOrder);
+
+    return newNode;
+}
+
+Node *inorderSuccessorinBST(Node *root, Node *givenNode) {
+    Node *successor = NULL;
+    while (root) {
+        if (root->data > givenNode->data) {
+            successor = root;
+        }
+        root = (root->data > givenNode->data ? root->left : root->right);
+    }
+
+    return successor;
+}
+
+Node *inorderPredecessorinBST(Node *root, Node *givenNode) {
+    Node *predecessor = NULL;
+    while (root) {
+        if (root->data < givenNode->data) {
+            predecessor = root;
+        }
+        root = (root->data < givenNode->data ? root->right : root->left);
+    }
+
+    return predecessor;
+}
+
+void storeEverythingOnLeft(Node *root, stack<Node *> &st) {
+    while (root) {
+        st.push(root);
+        root = root->left;
+    }
+}
+
+Node *nextt(stack<Node *> &st) {
+    if (!st.empty()) {
+        Node *ans = st.top();
+        st.pop();
+        if (ans->right) {
+            storeEverythingOnLeft(ans->right, st);
+        }
+        return ans;
+    } else {
+        return NULL;
+    }
+}
+
+bool hasNext(stack<Node *> st) {
+    return !st.empty();
+}
+
+void binarySearchTreeIterator(Node *root, vector<char> &instructions) {
+    stack<Node *> st;
+    storeEverythingOnLeft(root, st);
+    for (char instruction: instructions) {
+        if (instruction == 'N') {
+            Node *ans = nextt(st);
+            cout << (ans ? ans->data : -1) << '\n';
+        } else {
+            cout << (hasNext(st) ? "Yes, next available" : "No next") << '\n';
+        }
+    }
+}
+
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -1080,23 +1154,9 @@ int32_t main() {
     freopen("output.txt", "w", stdout);
 #endif
 
-//    Node *root = buildTree();
-    int N;
-    cin >> N;
-    vector<int> preOrder(N), inOrder(N);
-    for (int i = 0; i < N; i++) {
-        cin >> preOrder[i];
-        inOrder[i] = preOrder[i];
-    }
-    sort(inOrder.begin(), inOrder.end());
-    int maxElement = inOrder[N - 1];
-    vector<int> indexInInorder(maxElement + 2, 0);
-    for (int i = 0; i < N; i++) {
-        indexInInorder[inOrder[i]] = i;
-    }
-
-    Node *root = createBSTfromPreOrderUsingSortingMethod(0, N - 1, preOrder, 0, N - 1, inOrder, indexInInorder);
-    bfs(root);
+    Node *root = buildTree();
+    vector<char> instructions = {'H', 'N', 'N', 'N', 'H', 'N', 'N', 'N', 'N', 'H', 'N', 'N', 'N', 'H'}; // H represents hasNext() function and N represent next() function
+    binarySearchTreeIterator(root, instructions);
 
     return 0;
 }
