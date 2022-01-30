@@ -1,11 +1,3 @@
-#include <bits/stdc++.h>
-
-#define int long long
-using namespace std;
-
-const int mxN = 2e5 + 5;
-const int INF = 1e18 + 7;
-
 int value;
 
 struct Node {
@@ -1184,17 +1176,61 @@ bool twoSumInBST(Node *root, int givenSum) {
     return false;
 }
 
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+void checkViolation(Node *root, Node *&pre, tuple<Node *, Node *, Node *> &violation) {
+    if (!root) {
+        return;
+    }
 
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
+    checkViolation(root->left, pre, violation);
+    if (pre and root->data < pre->data) {
+        if (!get<0>(violation)) {
+            get<0>(violation) = pre;
+            get<1>(violation) = root;
+        } else {
+            get<2>(violation) = root;
+        }
+    }
 
-    Node *root = buildTree();
-    cout << twoSumInBST(root, 11);
+    pre = root;
+    checkViolation(root->right, pre, violation);
+}
 
-    return 0;
+void recoverBST(Node *root) {
+    Node *pre = NULL;
+    tuple<Node *, Node *, Node *> violation = {NULL, NULL, NULL};
+    checkViolation(root, pre, violation);
+
+    if (!get<2>(violation)) {
+        swap(get<0>(violation)->data, get<1>(violation)->data);
+    } else {
+        swap(get<0>(violation)->data, get<2>(violation)->data);
+    }
+}
+
+struct dimensions {
+    int size, largest, smallest;
+};
+
+dimensions largestBSTinBT(Node *root) {
+    if (!root) {
+        dimensions d;
+        d.size = 0, d.largest = -INF, d.smallest = INF;
+        return d;
+    }
+
+    dimensions left = largestBSTinBT(root->left);
+    dimensions right = largestBSTinBT(root->right);
+    dimensions now;
+
+    if (root->data > left.largest and root->data < right.smallest) {
+        now.size = 1 + left.size + right.size;
+        now.largest = max(right.largest, root->data);
+        now.smallest = min(left.smallest, root->data);
+    } else {
+        now.size = max(left.size, right.size);
+        now.largest = INF;
+        now.smallest = -INF;
+    }
+
+    return now;
 }
