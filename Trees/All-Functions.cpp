@@ -1108,19 +1108,39 @@ Node *inorderPredecessorinBST(Node *root, Node *givenNode) {
     return predecessor;
 }
 
-void storeEverythingOnLeft(Node *root, stack<Node *> &st) {
+void storeEverythingOnLeft(Node *root, stack<Node *> &stNext) {
     while (root) {
-        st.push(root);
+        stNext.push(root);
         root = root->left;
     }
 }
 
-Node *nextt(stack<Node *> &st) {
-    if (!st.empty()) {
-        Node *ans = st.top();
-        st.pop();
+void storeEverythingOnRight(Node *root, stack<Node *> &stBefore) {
+    while (root) {
+        stBefore.push(root);
+        root = root->right;
+    }
+}
+
+Node *nextt(stack<Node *> &stNext) {
+    if (!stNext.empty()) {
+        Node *ans = stNext.top();
+        stNext.pop();
         if (ans->right) {
-            storeEverythingOnLeft(ans->right, st);
+            storeEverythingOnLeft(ans->right, stNext);
+        }
+        return ans;
+    } else {
+        return NULL;
+    }
+}
+
+Node *beforee(stack<Node *> &stBefore) {
+    if (!stBefore.empty()) {
+        Node *ans = stBefore.top();
+        stBefore.pop();
+        if (ans->left) {
+            storeEverythingOnRight(ans->left, stBefore);
         }
         return ans;
     } else {
@@ -1132,17 +1152,36 @@ bool hasNext(stack<Node *> st) {
     return !st.empty();
 }
 
-void binarySearchTreeIterator(Node *root, vector<char> &instructions) {
-    stack<Node *> st;
-    storeEverythingOnLeft(root, st);
-    for (char instruction: instructions) {
-        if (instruction == 'N') {
-            Node *ans = nextt(st);
-            cout << (ans ? ans->data : -1) << '\n';
+bool hasBefore(stack<Node *> st) {
+    return !st.empty();
+}
+
+void binarySearchTreeIterator(Node *root, stack<Node *> &stNext, stack<Node *> &stBefore) {
+    storeEverythingOnLeft(root, stNext);
+    storeEverythingOnRight(root, stBefore);
+}
+
+bool twoSumInBST(Node *root, int givenSum) {
+    stack<Node *> stNext, stBefore;
+    binarySearchTreeIterator(root, stNext, stBefore);
+
+    Node *low = nextt(stNext);
+    Node *high = beforee(stBefore);
+
+    while (low->data < high->data) {
+        int sum = low->data + high->data;
+        if (sum == givenSum) {
+            return true;
         } else {
-            cout << (hasNext(st) ? "Yes, next available" : "No next") << '\n';
+            if (sum < givenSum) {
+                low = nextt(stNext);
+            } else {
+                high = beforee(stBefore);
+            }
         }
     }
+
+    return false;
 }
 
 int32_t main() {
@@ -1155,8 +1194,7 @@ int32_t main() {
 #endif
 
     Node *root = buildTree();
-    vector<char> instructions = {'H', 'N', 'N', 'N', 'H', 'N', 'N', 'N', 'N', 'H', 'N', 'N', 'N', 'H'}; // H represents hasNext() function and N represent next() function
-    binarySearchTreeIterator(root, instructions);
+    cout << twoSumInBST(root, 11);
 
     return 0;
 }
