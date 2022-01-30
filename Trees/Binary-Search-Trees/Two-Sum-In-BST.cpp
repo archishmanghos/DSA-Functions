@@ -66,7 +66,6 @@ private:
 class Solution {
 public:
     bool twoSumInBST(Node *root, int givenSum) {
-        stack<Node *> stNext, stBefore;
         BSTIterator low(root, false);
         BSTIterator high(root, true);
 
