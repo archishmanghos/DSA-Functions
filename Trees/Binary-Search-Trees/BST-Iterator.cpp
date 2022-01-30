@@ -30,88 +30,72 @@ Node *buildTree() {
     return root;
 }
 
-void storeEverythingOnLeft(Node *root, stack<Node *> &stNext) {
-    while (root) {
-        stNext.push(root);
-        root = root->left;
+class BSTIterator {
+    stack<Node *> st;
+    bool reverse;
+public:
+    BSTIterator(Node *root, bool rev) {
+        reverse = rev;
+        storeEverything(root);
     }
-}
 
-void storeEverythingOnRight(Node *root, stack<Node *> &stBefore) {
-    while (root) {
-        stBefore.push(root);
-        root = root->right;
+    bool hasElement() {
+        return !st.empty();
     }
-}
 
-Node *nextt(stack<Node *> &stNext) {
-    if (!stNext.empty()) {
-        Node *ans = stNext.top();
-        stNext.pop();
-        if (ans->right) {
-            storeEverythingOnLeft(ans->right, stNext);
+    Node *element() {
+        Node *ans = st.top();
+        st.pop();
+        if (reverse) {
+            storeEverything(ans->left);
+        } else {
+            storeEverything(ans->right);
         }
         return ans;
-    } else {
-        return NULL;
     }
-}
 
-Node *beforee(stack<Node *> &stBefore) {
-    if (!stBefore.empty()) {
-        Node *ans = stBefore.top();
-        stBefore.pop();
-        if (ans->left) {
-            storeEverythingOnRight(ans->left, stBefore);
+private:
+    void storeEverything(Node *root) {
+        while (root) {
+            st.push(root);
+            root = (reverse ? root->right : root->left);
         }
-        return ans;
-    } else {
-        return NULL;
     }
-}
+};
 
-bool hasNext(stack<Node *> st) {
-    return !st.empty();
-}
-
-bool hasBefore(stack<Node *> st) {
-    return !st.empty();
-}
-
-void binarySearchTreeIterator(Node *root,stack<Node*> &stNext,stack<Node*> &stBefore) {
-    storeEverythingOnLeft(root, stNext);
-    storeEverythingOnRight(root, stBefore);
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+class Solution {
+public:
+    int32_t main() {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
 
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+        freopen("input.txt", "r", stdin);
+        freopen("output.txt", "w", stdout);
 #endif
 
-    Node *root = buildTree();
-    vector<string> instructions = {"HN", "N", "N", "N", "HN", "N", "N", "N", "N", "HN", "N", "N", "N", "N",
-                                   "HN", "HB", "B", "B", "B", "HB", "B", "B", "B", "B", "HB", "B", "B", "B", "B",
-                                   "HB"}; // HN represents hasNext() function and N represent next() function, HB represents hasBefore() function and B represent before() function
+        Node *root = buildTree();
+        vector<string> instructions = {"HN", "N", "N", "N", "HN", "N", "N", "N", "N", "HN", "N", "N", "N", "N",
+                                       "HN", "HB", "B", "B", "B", "HB", "B", "B", "B", "B", "HB", "B", "B", "B", "B",
+                                       "HB"}; // HN represents hasNext() function and N represent next() function, HB represents hasBefore() function and B represent before() function
 
-    stack<Node *> stNext, stBefore;
-    binarySearchTreeIterator(root, stNext, stBefore);
-    for (string instruction: instructions) {
-        if (instruction == "N") {
-            Node *ans = nextt(stNext);
-            cout << (ans ? ans->data : -1) << '\n';
-        } else if (instruction == "B") {
-            Node *ans = beforee(stBefore);
-            cout << (ans ? ans->data : -1) << '\n';
-        } else if (instruction == "HN") {
-            cout << (hasNext(stNext) ? "Yes, next available" : "No next") << '\n';
-        } else {
-            cout << (hasBefore(stBefore) ? "Yes, previous available" : "No previous") << '\n';
+        BSTIterator nextElement(root, false);
+        BSTIterator prevElement(root, true);
+
+        for (string instruction: instructions) {
+            if (instruction == "N") {
+                Node *ans = nextElement.element();
+                cout << (ans ? ans->data : -1) << '\n';
+            } else if (instruction == "B") {
+                Node *ans = prevElement.element();
+                cout << (ans ? ans->data : -1) << '\n';
+            } else if (instruction == "HN") {
+                cout << (nextElement.hasElement() ? "Yes, next available" : "No next") << '\n';
+            } else {
+                cout << (prevElement.hasElement() ? "Yes, previous available" : "No previous") << '\n';
+            }
         }
-    }
 
-    return 0;
-}
+        return 0;
+    }
+};
