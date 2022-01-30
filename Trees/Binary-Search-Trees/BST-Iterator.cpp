@@ -78,10 +78,27 @@ bool hasBefore(stack<Node *> st) {
     return !st.empty();
 }
 
-void binarySearchTreeIterator(Node *root, vector<string> &instructions) {
-    stack<Node *> stNext, stBefore;
+void binarySearchTreeIterator(Node *root,stack<Node*> &stNext,stack<Node*> &stBefore) {
     storeEverythingOnLeft(root, stNext);
     storeEverythingOnRight(root, stBefore);
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
+    Node *root = buildTree();
+    vector<string> instructions = {"HN", "N", "N", "N", "HN", "N", "N", "N", "N", "HN", "N", "N", "N", "N",
+                                   "HN", "HB", "B", "B", "B", "HB", "B", "B", "B", "B", "HB", "B", "B", "B", "B",
+                                   "HB"}; // HN represents hasNext() function and N represent next() function, HB represents hasBefore() function and B represent before() function
+
+    stack<Node *> stNext, stBefore;
+    binarySearchTreeIterator(root, stNext, stBefore);
     for (string instruction: instructions) {
         if (instruction == "N") {
             Node *ans = nextt(stNext);
@@ -95,23 +112,6 @@ void binarySearchTreeIterator(Node *root, vector<string> &instructions) {
             cout << (hasBefore(stBefore) ? "Yes, previous available" : "No previous") << '\n';
         }
     }
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-
-    Node *root = buildTree();
-    vector<string> instructions1 = {"HN", "N", "N", "N", "HN", "N", "N", "N", "N", "HN", "N", "N", "N", "N",
-                                    "HN"}; // HN represents hasNext() function and N represent next() function
-    vector<string> instructions2 = {"HB", "B", "B", "B", "HB", "B", "B", "B", "B", "HB", "B", "B", "B", "B",
-                                    "HB"}; // HB represents hasBefore() function and B represent before() function
-    binarySearchTreeIterator(root, instructions2);
 
     return 0;
 }
