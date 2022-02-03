@@ -1,9 +1,5 @@
 // Same as undirected graph but use a dfsVisited array to check if dfs call has been over for that cycle
 
-int N, M, U, V;
-vector<int> adj[mxN];
-vector<bool> visited(mxN), dfsVisited(mxN);
-
 bool checkCycle(int node) {
     visited[node] = dfsVisited[node] = true;
 

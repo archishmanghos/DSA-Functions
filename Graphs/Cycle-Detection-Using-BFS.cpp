@@ -1,8 +1,5 @@
 // check if a node is visited and the node is not the parent of the current Node, it is a cycle
 
-int N, M, U, V;
-vector<int> adj[mxN], visited(mxN);
-
 bool findCycle(int root) {
     queue<pair<int, int>> q;
     q.push({root, -1});
