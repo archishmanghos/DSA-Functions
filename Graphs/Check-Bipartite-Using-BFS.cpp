@@ -6,7 +6,6 @@ bool checkCanBeColoured(int node) {
     q.push(node);
     colour[node] = 0;
 
-    bool ans = true;
     while (!q.empty()) {
         int node = q.front();
         q.pop();
@@ -16,13 +15,13 @@ bool checkCanBeColoured(int node) {
                 q.push(child);
             } else {
                 if (colour[child] == colour[node]) {
-                    ans = false;
+                    return false;
                 }
             }
         }
     }
 
-    return ans;
+    return true;
 }
 
 int32_t main() {
@@ -43,14 +42,16 @@ int32_t main() {
     }
 
     colour.assign(mxN, -1);
+
     for (int i = 1; i <= N; i++) {
         if (colour[i] == -1) {
-            if (checkCanBeColoured(i)) {
-                cout << "YES" << '\n';
-            } else {
+            if (!checkCanBeColoured(i)) {
                 cout << "NO" << '\n';
+                return 0;
             }
         }
     }
+
+    cout << "YES" << '\n';
     return 0;
 }
