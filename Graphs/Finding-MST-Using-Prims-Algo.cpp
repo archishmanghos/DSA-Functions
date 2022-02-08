@@ -1,3 +1,9 @@
+/*Pick the key with the minimum value from the minimum heap, which is not in the MST
+and include the node with the min key in the MST. Now, traverse through the adjacent nodes
+of the node found and if the adjacent node is not in the MST, compare the key of the node
+and the weight of the edge now. Take the minimum and push the new key in the min heap and mark the
+parent of the adjacent node as the current node. Coninue the steps till all the nodes have been included.*/
+
 void findMST() {
     parent.assign(N + 2, -1);
     key.assign(N + 2, INF);
@@ -13,7 +19,7 @@ void findMST() {
 
         for (auto child: adj[node]) {
             if (!mst[child.first]) {
-                if (key[child.first] > child.second and !mst[child.first]) {
+                if (key[child.first] > child.second) {
                     key[child.first] = child.second;
                     parent[child.first] = node;
                     minHeap.push({key[child.first], child.first});
