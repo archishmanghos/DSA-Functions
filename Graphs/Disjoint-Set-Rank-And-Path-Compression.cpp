@@ -1,3 +1,8 @@
+/*If we need to do union of 2 nodes, we find out their parents using path compression.
+Now, we see if their ranks are same, we attach anyone to another one and increase rank of final parent by 1.
+If not same, the lower ranked parent gets attached to the higher ranked parent.*/
+
+
 void assignParentAndRank() {
     for (int i = 1; i <= N; i++) {
         parent[i] = i;
