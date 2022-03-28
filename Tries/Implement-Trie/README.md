@@ -31,6 +31,3 @@ We make a trie class or struct, which contains:<br>
  >
  This is the basic implementation. <br>
  If still unclear, would suggest to [watch this video](https://www.youtube.com/watch?v=dBGUmUQhjaM).<br>
-
- Runtime: `73 ms`, faster than `71.56%`<br>
- Memory Usage: `45 MB`, less than `48.03%`
