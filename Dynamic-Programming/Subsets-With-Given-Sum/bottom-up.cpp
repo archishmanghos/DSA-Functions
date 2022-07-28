@@ -10,17 +10,15 @@ int32_t main() {
     vector<vector<int>> cache(n, vector<int>(k + 1, 0));
     for (int i = n - 1; i >= 0; i--) {
         for (int j = 0; j <= k; j++) {
-            if (j == 0) {
-                cache[i][j] = 1;
-                continue;
-            }
             if (i == n - 1) {
-                cache[i][j] = (j == nums[i]);
-                continue;
+                if (j == 0 and nums[i] == 0) cache[i][j] = 2;
+                else cache[i][j] = (j == 0 or j == nums[i]);
+            } else {
+                cache[i][j] = cache[i + 1][j];
+                if (nums[i] <= j) {
+                    cache[i][j] += cache[i + 1][j - nums[i]];
+                }
             }
-
-            cache[i][j] = cache[i + 1][j];
-            if (nums[i] <= j) cache[i][j] += cache[i + 1][j - nums[i]];
         }
     }
 

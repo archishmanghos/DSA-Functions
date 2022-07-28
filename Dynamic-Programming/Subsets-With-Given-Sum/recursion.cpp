@@ -2,8 +2,10 @@
 using namespace std;
 
 int dp(int index, int sum, int n, vector<int> &num) {
-    if (sum == 0) return 1;
-    if (index == n - 1) return num[n - 1] == sum;
+    if (index == n - 1) {
+        if (sum == 0 and num[n - 1] == 0) return 2;
+        return sum == 0 or sum == num[n - 1];
+    }
 
     int ans = dp(index + 1, sum, n, num);
     if (num[index] <= sum) {
