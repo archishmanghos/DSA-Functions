@@ -34,7 +34,9 @@ void manacher(string s) {
 <br>
 
 <h2>Practice Problems </h2>
+
 <br>
+
 [Longest Palindromic Substring - Leetcode](https://leetcode.com/problems/longest-palindromic-substring/)
 
 <br>
