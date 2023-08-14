@@ -57,7 +57,7 @@ int rabinKarp(string a, string b) { // find b in a
 
 <br>
 
-<h2>Practice Problems < / h2 >
+<h2>Practice Problems </h2>
 
 <br>
 
