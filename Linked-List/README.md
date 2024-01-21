@@ -158,3 +158,83 @@ public class Search_in_a_Linked_List {
 ```
 
 <br>
+
+<h4 id="4">Lecture 4</h4>
+
+4. [Lec-4  Introduction To Linked List [Code Studio]](https://www.codingninjas.com/studio/problems/introduction-to-linked-list_8144737)
+
+```java
+package LinkedList.SinglyLinkedList;
+
+public class Introduction_To_Linked_List {
+    static class Node {
+        public int data;
+        public Node next;
+
+        Node() {
+            this.data = 0;
+            this.next = null;
+        }
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        Node(int data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+    }
+
+    public static Node constructLL(int[] arr) {
+        Node head = new Node(arr[0]);
+        Node pre = head;
+
+        for (int i = 1; i < arr.length; i++) {
+            pre.next = new Node(arr[i]);
+            pre = pre.next;
+        }
+
+        return head;
+    }
+}
+```
+
+<br>
+
+<h4 id="5">Lecture 5</h4>
+
+5. [Lec-5  Delete Head of a Given Linked List [Code Studio]](https://www.codingninjas.com/studio/problems/delete-head-of-a-given-linked-list_9941216)
+
+```java
+package LinkedList.SinglyLinkedList;
+
+public class Delete_Head_of_a_Given_Linked_List {
+    static class Node {
+        public int data;
+        public Node next;
+
+        Node() {
+            this.data = 0;
+            this.next = null;
+        }
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        Node(int data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+    }
+
+    public static Node deleteHead(Node head) {
+        return head.next;
+    }
+}
+```
+
+<br>
