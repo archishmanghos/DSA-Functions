@@ -117,3 +117,44 @@ public class Count_nodes_of_linked_list {
 ```
 
 <br>
+
+<h4 id="3">Lecture 3</h4>
+
+3. [Lec-3  Search in a Linked List [Code Studio]](https://www.codingninjas.com/studio/problems/search-in-a-linked-list_975381)
+
+```java
+package LinkedList.SinglyLinkedList;
+
+public class Search_in_a_Linked_List {
+    static class Node {
+        public int data;
+        public Node next;
+
+        Node() {
+            this.data = 0;
+            this.next = null;
+        }
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+
+        Node(int data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+    }
+
+    public static int searchInLinkedList(Node head, int k) {
+        while (head != null) {
+            if (head.data == k) return 1;
+            head = head.next;
+        }
+
+        return 0;
+    }
+}
+```
+
+<br>
